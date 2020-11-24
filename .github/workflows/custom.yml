@@ -67,7 +67,7 @@
 # Once your branch has been updated, you can run the
 # workflow again manually in GitHub to re-deploy.
 
-name: Build Only
+name: Custom Deploy
 
 on:
   # Uncomment these for automatic deployment.
@@ -96,7 +96,7 @@ jobs:
       PfxKey: ${{ secrets.PFX_KEY }}
       SiteUrl: ${{ secrets.SITE_URL }}
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -169,4 +169,32 @@ jobs:
 
     # Remove the pfx
     - name: Remove the pfx
-      run: Remove-Item -path "$env:GITHUB_WORKSPACE\GitHubActionsWorkflow.pfx"
+      run: Remove-Item -path "$env:GITHUB_WORKSPACE\GitHubActionsWorkflow.pfx" -force
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      SshUsername: ${{ secrets.SSH_USERNAME }}
+      SshPrivateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+      SshHostname: ${{ secrets.SSH_HOSTNAME }}
+    
+    steps:
+
+    # Install SSH Key
+    - name: Install SSH Key
+      uses: shimataro/ssh-key-action@v2.1.0
+      with:
+        # SSH private key
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # public keys of SSH servers
+        known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+    # Download Build Artifact
+    - name: Download build artifact
+      uses: actions/download-artifact@v2
+
+    - name: Publish
+      shell: bash
+      run: | 
+        rsync -r -v -W ./artifact/ $SshUsername@$SshHostname:/var/www/remotely/
