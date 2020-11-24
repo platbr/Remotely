@@ -95,7 +95,6 @@ jobs:
       PfxBase64: ${{ secrets.BASE64_ENCODED_PFX }}
       PfxKey: ${{ secrets.PFX_KEY }}
       SiteUrl: ${{ secrets.SITE_URL }}
-      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
     - name: Checkout
