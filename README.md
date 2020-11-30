@@ -4,14 +4,19 @@ A remote control and remote scripting solution, built with .NET Core, SignalR Co
 [![Build Status](https://dev.azure.com/translucency/Remotely/_apis/build/status/Remotely-ReleaseBuild?branchName=master)](https://dev.azure.com/translucency/Remotely/_build/latest?definitionId=17&branchName=master)
 ![GitHub Build](https://github.com/lucent-sea/Remotely/workflows/GitHub%20Build/badge.svg)
 
-## Sponsor This Project
+## Donations
+If this project has benefited you in some way, or if you just want to show appreciation, please consider donating to a charity.
+
+Suggested Charities: https://www.givewell.org/charities/top-charities
+
+If you want to send a few dollars my way as well, you can with the below links.  But if you have to choose between one or the other, please pick the charity.  Your money will have a much greater impact on their lives than mine.
+
 Ongoing via GitHub: https://github.com/sponsors/lucent-sea  
 One-Time via PayPal: https://paypal.me/translucency  
 
 ## Project Links
 Demo App: https://app.remotely.one  
 Website: https://remotely.one  
-Feedback: https://remotely.featureupvote.com/  
 Subreddit: https://www.reddit.com/r/remotely_app/  
 
 ## Disclaimer
@@ -32,8 +37,7 @@ The following steps will configure your Windows 10 machine for building the Remo
 	    * .NET Core SDK (latest version).
 		* MSBuild (which auto-selects Roslyn compilers).
 		* NuGet targets and build tasks.
-		* .NET Framework 4.6.2 SDK.
-		* .NET Framework 4.6.2 targeting pack.
+		* .NET Framework 4.8 SDK.
 	    * For debugging and development, you'll need all relevant workloads.
 * Install Node.js.
 	* Link: https://nodejs.org/
@@ -108,6 +112,7 @@ Whenever there's a reference to `appsettings.json` in this document, it refers t
 For more information on configuring ASP.NET Core, see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1.
 
 * AllowApiLogin: Whether to allow logging in via the API controller.  API access tokens are recommended over this approach.
+* BannedDevices: An array of device IDs, names, or IP addresses to ban.  When they try to connect, an uninstall command will immediately be sent back.
 * DataRetentionInDays: How long event logs and remote command logs will be kept.
 * DBProvider: Determines which of the three connection strings (at the top) will be used.  The appropriate DB provider for the database type is automatically loaded in code.
 * DefaultPrompt: The default prompt string you'll see for each line on the console.
